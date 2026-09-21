@@ -304,14 +304,15 @@ async function report({ days }) {
   const day = s => new Date(s).toLocaleDateString('en', { month: 'short', day: 'numeric' })
 
   console.log(`\n${paint('bold', 'trust-issues')}  ${paint('dim', `${t.turns} turns where Claude Code changed code · ${day(t.first)} – ${day(t.last)}`)}\n`)
-  const row = (label, k, extra = '') => k && console.log(`  ${label.padEnd(18)}${String(k.backed + k.unbacked + k.contradicted).padStart(5)} claims   ${paint('green', `${k.backed} backed`)}   ${paint(k.unbacked ? 'yellow' : 'dim', `${k.unbacked} no receipt`)}${extra}`)
-  row('"tests pass"', t.claims.tests, t.claims.tests ? `   ${paint(t.claims.tests.contradicted ? 'red' : 'dim', `${t.claims.tests.contradicted} after a failing run`)}` : '')
+  const n = (x, w = 4) => String(x).padStart(w)
+  const row = (label, k, extra = '') => k && console.log(`  ${label.padEnd(18)}${n(k.backed + k.unbacked + k.contradicted, 5)} claims ${paint('green', `${n(k.backed)} backed`)} ${paint(k.unbacked ? 'yellow' : 'dim', `${n(k.unbacked)} no receipt`)}${extra}`)
+  row('"tests pass"', t.claims.tests, t.claims.tests ? ` ${paint(t.claims.tests.contradicted ? 'red' : 'dim', `${n(t.claims.tests.contradicted)} after a failing run`)}` : '')
   row('"fixed" / "works"', t.claims.fixed)
   row('"verified"', t.claims.verified)
   row('"pre-existing"', t.claims['pre-existing'])
   if (!all) console.log(paint('dim', '  no claims of success found; your agent is either honest or quiet'))
   const kinds = Object.entries(t.tampering.reduce((m, x) => (m[x.what.replace(/\d+ assertions?/, 'assertions')] = (m[x.what.replace(/\d+ assertions?/, 'assertions')] ?? 0) + 1, m), {}))
-  console.log(`  ${'silent tampering'.padEnd(18)}${String(t.tampering.length).padStart(5)} times   ${paint(t.tampering.length ? 'red' : 'dim', kinds.map(([w, n]) => `${n}× ${w}`).join(' · ') || 'none')}`)
+  console.log(`  ${'silent tampering'.padEnd(18)}${n(t.tampering.length, 5)} times  ${paint(t.tampering.length ? 'red' : 'dim', kinds.map(([w, n]) => `${n}× ${w}`).join(' · ') || 'none')}`)
 
   const worst = [...t.bad.filter(c => c.verdict === 'contradicted'), ...t.bad.filter(c => c.verdict !== 'contradicted')].slice(0, 5)
   if (worst.length) {

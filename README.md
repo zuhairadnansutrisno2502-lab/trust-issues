@@ -22,7 +22,7 @@ the tests pass without running them, or makes the tests easier instead of the co
 | Your agent says | What actually happened | trust-issues |
 |---|---|---|
 | "All tests pass." | Nothing ran after the last edit. | *No test ran after your last edit to cart.ts. Run the tests and quote the pass/fail line.* |
-| "All 14 tests pass." | `npm test \| tail` exited 0. One test failed. | *The last run said "ℹ fail 1".* |
+| "All 14 tests pass." | `npm test \| tail` exited 0. One test failed. | *The last run said `ℹ fail 1`.* |
 | "Those two failures are pre-existing." | It never ran the old code. | *Run the failing tests on the old code (git stash, run, git stash pop) and quote both results.* |
 | "Simplified the test. All green now." | Four assertions are gone. | *You deleted 4 assertions.* |
 | "Done, all green." | The failing test is now `it.skip`. | *You skipped a test. Undo it and fix the code, or tell the user plainly what you did and why.* |
@@ -66,19 +66,19 @@ It reads your Claude Code history (`~/.claude/projects`) and grades it: every ti
 ```
 trust-issues  69 turns where Claude Code changed code · Jul 7 – Sep 21
 
-  "tests pass"          6 claims   6 backed   0 no receipt   0 after a failing run
-  "fixed" / "works"    16 claims  16 backed   0 no receipt
-  "verified"           12 claims  11 backed   1 no receipt
-  silent tampering      0 times   none
+  "tests pass"          6 claims    6 backed    0 no receipt    0 after a failing run
+  "fixed" / "works"    16 claims   16 backed    0 no receipt
+  "verified"           12 claims   11 backed    1 no receipt
+  silent tampering      0 times  none
 
   receipts missing
-  Aug 1   "rules.js (28 rules, ~60 packages, all versions verified)"
-          nothing ran after your last edit to verify-rules.js; reading isn't running
+  Aug 1   "Status: rules.js (28 rules, ~60 package names, all versions verified)"
+          nothing ran after your last edit to outgrown/verify-rules.js; reading isn't running
 
   grade A   trust issues: unfounded. For now.
 ```
 
-That is the author's own card after three months with a good model. Even there, one "verified" came right after the agent edited the very script it had verified with.
+That is the author's own card after three months with a good model (the flagged quote is translated from Indonesian). Even there, one "verified" came right after the agent edited the very script it had verified with.
 
 <!-- STUDY -->
 
@@ -94,11 +94,9 @@ That is the author's own card after three months with a good model. Even there, 
 
 ## What's inside
 
-| | |
-|---|---|
-| [`skills/trust-issues/SKILL.md`](skills/trust-issues/SKILL.md) | Seven rules and a Receipts block, for any agent that reads skills |
-| [`hooks/hooks.json`](hooks/hooks.json) | Claude Code `Stop` and `SubagentStop` hooks |
-| [`bin/trust-issues.mjs`](bin/trust-issues.mjs) | The whole thing. One file, no dependencies, about 0.2 s per reply |
+- [`skills/trust-issues/SKILL.md`](skills/trust-issues/SKILL.md): seven rules and a Receipts block, for any agent that reads skills.
+- [`hooks/hooks.json`](hooks/hooks.json): the Claude Code `Stop` and `SubagentStop` hooks.
+- [`bin/trust-issues.mjs`](bin/trust-issues.mjs): the whole thing. One file, no dependencies, about 0.1 s per reply even on a 270 MB transcript.
 
 ## FAQ
 
