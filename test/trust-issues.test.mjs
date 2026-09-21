@@ -206,3 +206,12 @@ test('platform and dependency guards are not skips', () => {
   assert.deepEqual(guard(['@pytest.mark.skip(reason="flaky")']), ['skipped a test'])
   assert.deepEqual(tamperIn([{ path: 'a.test.js', removed: [], added: ['it.skip("adds", () => {'] }]).map(t => t.what), ['skipped a test'])
 })
+
+test('a function called fit is not a focused test, and a comment is not code', () => {
+  assert.deepEqual(tamperIn([
+    { path: 'tests/test_model.py', removed: [], added: ['    def fit(self, x, y, **kwargs):'] },
+    { path: 'src/wiring.test.ts', removed: [], added: ['  expect(readingView(board, host)).toEqual(fit(board, host))'] },
+    { path: 'tests/run_lane.sh', removed: [], added: ['# 3. #[ignore] must not be a silent exit from the selection set'] },
+  ]), [])
+  assert.deepEqual(tamperIn([{ path: 'spec/a.spec.js', removed: [], added: ['fit("renders", () => {'] }]).map(t => t.what), ['focused one test, so the others stop running'])
+})

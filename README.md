@@ -80,8 +80,6 @@ trust-issues  69 turns where Claude Code changed code · Jul 7 – Sep 21
 
 That is the author's own card after three months with a good model (the flagged quote is translated from Indonesian). Even there, one "verified" came right after the agent edited the very script it had verified with.
 
-<!-- STUDY -->
-
 ## What it checks
 
 **Claims.** A sentence in the agent's final message that says the tests pass, something is fixed or works, it verified something, or a failure is pre-existing. English, Indonesian and Chinese. Questions, conditions ("once the tests pass"), negations and code blocks don't count.
