@@ -1,0 +1,88 @@
+<svg width="440" height="460" viewBox="0 0 440 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Squint, the trust-issues mascot: a cat giving you a long side-eye while holding a receipt stamped NOT VERIFIED">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a1b26"/>
+      <stop offset="1" stop-color="#24283b"/>
+    </linearGradient>
+  </defs>
+  <rect width="440" height="460" rx="20" fill="url(#bg)"/>
+
+  <!-- speech bubble -->
+  <path d="M 78 36 C 60 38 62 48 63 62 C 64 82 60 100 80 101 C 130 104 200 102 250 103 C 300 104 350 106 362 100 C 376 94 372 78 373 64 C 374 48 376 36 356 37 C 260 32 160 33 78 36 Z"
+        fill="#ece3cf" stroke="#11121a" stroke-width="3"/>
+  <path d="M 196 102 C 194 114 188 124 180 132 C 198 126 208 114 212 103 Z" fill="#ece3cf" stroke="#11121a" stroke-width="2.5" stroke-linejoin="round"/>
+  <text x="218" y="65" text-anchor="middle" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue','Segoe Print',cursive" font-size="20" font-weight="700" fill="#1a1b26" transform="rotate(-1 218 78)">"All tests pass," you said.</text>
+  <text x="218" y="90" text-anchor="middle" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue','Segoe Print',cursive" font-size="20" font-weight="700" fill="#1a1b26" transform="rotate(-1 218 78)">Receipts, please.</text>
+
+  <!-- sparkles and a stray question mark -->
+  <path d="M 96 176 C 97.5 184 98 185 106 188 C 98 191 97.5 192 96 200 C 94.5 192 94 191 86 188 C 94 185 94.5 184 96 176 Z" fill="#e0af68"/>
+  <circle cx="118" cy="146" r="2.5" fill="#7aa2f7"/>
+  <text x="352" y="196" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue','Segoe Print',cursive" font-size="34" font-weight="700" fill="#7aa2f7" transform="rotate(12 352 196)">?</text>
+
+  <!-- shadow -->
+  <ellipse cx="220" cy="426" rx="118" ry="11" fill="#0e0f16" opacity="0.45"/>
+
+  <!-- tail, flicking with suspicion -->
+  <path d="M 282 392 C 330 398 352 368 346 334 C 342 312 356 298 372 302 C 380 304 382 314 374 316 C 362 318 360 330 364 344 C 372 382 336 414 288 410 Z"
+        fill="#f0e0c0" stroke="#11121a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 346 336 L 362 330 M 350 360 L 366 358 M 336 386 L 350 394" stroke="#e0af68" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- body -->
+  <path d="M 156 262 C 132 300 126 352 138 394 C 144 414 296 414 302 394 C 314 352 308 300 284 262 Z"
+        fill="#f0e0c0" stroke="#11121a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 150 322 C 160 318 168 320 174 326 M 146 350 C 156 346 166 348 172 354 M 290 322 C 280 318 272 320 266 326 M 294 350 C 284 346 274 348 268 354" fill="none" stroke="#e0af68" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- ears -->
+  <path d="M 150 196 L 156 118 L 204 160 Z" fill="#f0e0c0" stroke="#11121a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 162 176 L 164 138 L 190 160 Z" fill="#f7768e" opacity="0.55"/>
+  <path d="M 232 158 L 282 114 L 290 194 Z" fill="#f0e0c0" stroke="#11121a" stroke-width="3.5" stroke-linejoin="round"/>
+  <path d="M 246 158 L 276 134 L 280 172 Z" fill="#f7768e" opacity="0.55"/>
+
+  <!-- head -->
+  <path d="M 140 222 C 138 170 182 150 220 150 C 260 150 302 170 300 222 C 300 262 264 286 220 286 C 176 286 140 262 140 222 Z"
+        fill="#f0e0c0" stroke="#11121a" stroke-width="3.5"/>
+  <path d="M 204 156 L 208 176 M 220 154 L 220 176 M 236 156 L 232 176" stroke="#e0af68" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- the side-eye: both pupils slid to the right, lids at half mast, one brow up -->
+  <path d="M 164 214 C 170 202 196 200 206 212 C 200 226 172 228 164 214 Z" fill="#ece3cf" stroke="#11121a" stroke-width="2.5"/>
+  <circle cx="198" cy="216" r="6.5" fill="#11121a"/>
+  <path d="M 161 214 C 170 204 196 202 209 212 L 209 210 C 196 197 170 197 161 211 Z" fill="#f0e0c0" stroke="#11121a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M 162 214 L 209 212" stroke="#11121a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 234 212 C 240 200 266 198 276 210 C 270 224 242 226 234 212 Z" fill="#ece3cf" stroke="#11121a" stroke-width="2.5"/>
+  <circle cx="268" cy="214" r="6.5" fill="#11121a"/>
+  <path d="M 232 211 L 279 207" stroke="#11121a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 164 192 C 176 188 192 190 204 196" fill="none" stroke="#11121a" stroke-width="3.5" stroke-linecap="round"/>
+  <path d="M 236 184 C 248 172 266 172 278 180" fill="none" stroke="#11121a" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- nose, unimpressed mouth, whiskers -->
+  <path d="M 212 236 L 228 236 L 220 244 Z" fill="#f7768e" stroke="#11121a" stroke-width="2" stroke-linejoin="round"/>
+  <path d="M 206 256 C 214 253 226 253 236 258" fill="none" stroke="#11121a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 190 244 L 146 238 M 190 250 L 148 254 M 250 244 L 294 236 M 250 250 L 292 254" stroke="#11121a" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- the receipt -->
+  <g transform="rotate(-6 222 350)">
+    <path d="M 166 290 L 278 290 L 278 408 L 270 400 L 262 408 L 254 400 L 246 408 L 238 400 L 230 408 L 222 400 L 214 408 L 206 400 L 198 408 L 190 400 L 182 408 L 174 400 L 166 408 Z"
+          fill="#fbf7ee" stroke="#11121a" stroke-width="3" stroke-linejoin="round"/>
+    <text x="222" y="308" text-anchor="middle" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="10" font-weight="700" fill="#1a1b26" letter-spacing="2">RECEIPT</text>
+    <path d="M 176 314 L 268 314" stroke="#1a1b26" stroke-width="1" stroke-dasharray="3 2"/>
+    <text x="176" y="328" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">edit cart.ts</text>
+    <text x="268" y="328" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">14:02</text>
+    <text x="176" y="342" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">npm test</text>
+    <text x="268" y="342" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">---</text>
+    <text x="176" y="356" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">"all pass"</text>
+    <text x="268" y="356" text-anchor="end" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="8.5" fill="#1a1b26">14:03</text>
+    <path d="M 176 364 L 268 364" stroke="#1a1b26" stroke-width="1" stroke-dasharray="3 2"/>
+    <g transform="rotate(-14 222 384)">
+      <rect x="174" y="370" width="96" height="26" rx="4" fill="none" stroke="#f7768e" stroke-width="2.5"/>
+      <text x="222" y="387" text-anchor="middle" font-family="'SF Mono',Menlo,Consolas,monospace" font-size="10" font-weight="700" fill="#f7768e" letter-spacing="1">NOT VERIFIED</text>
+    </g>
+  </g>
+
+  <!-- paws pinching the receipt -->
+  <ellipse cx="166" cy="306" rx="15" ry="12" fill="#f0e0c0" stroke="#11121a" stroke-width="3"/>
+  <path d="M 158 300 L 158 309 M 166 298 L 166 309" stroke="#11121a" stroke-width="1.6" stroke-linecap="round"/>
+  <ellipse cx="280" cy="296" rx="15" ry="12" fill="#f0e0c0" stroke="#11121a" stroke-width="3"/>
+  <path d="M 280 288 L 280 299 M 288 290 L 288 299" stroke="#11121a" stroke-width="1.6" stroke-linecap="round"/>
+
+  <text x="220" y="448" text-anchor="middle" font-family="'Comic Sans MS','Chalkboard SE','Comic Neue','Segoe Print',cursive" font-size="13" fill="#7f88b3" transform="rotate(-1 220 448)">squint · has read your transcripts</text>
+</svg>
