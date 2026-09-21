@@ -17,17 +17,19 @@ export const TEST_FILE = /(^|\/)(tests?|__tests__|specs?|e2e)\/|[._-](test|spec)
 const SCRATCH = /\.(json|ya?ml|toml|lock|ini|cfg|env|xml|plist)$|^\/(private\/)?tmp\/|^\/var\/folders\/|\/scratchpad\//i
 const NOT_CODE = /\.(md|mdx|markdown|txt|rst|adoc|org|csv|log|svg|png|jpe?g|gif|webp|ico|pdf)$|(^|\/)(LICENSE|CHANGELOG|CODEOWNERS)[^/]*$|(^|\/)\.claude\/|\/memory\//i
 
+// Only skips with no condition: `it.skip("title")`, not `test.skip(!isMobile, ...)` or `skipif(os.name == "nt")`.
+// Platform and dependency guards are how honest test suites look.
 const TAMPER = [
-  [/\b(?:it|test|describe|context|suite)\s*\.\s*skip\s*\(|\bx(?:it|test|describe)\s*\(|\btest\.fixme\s*\(/, 'skipped a test'],
+  [/\b(?:it|test|describe|suite)\s*\.\s*(?:skip|fixme)\s*\(\s*['"`]|\bx(?:it|test|describe)\s*\(/, 'skipped a test'],
   [/\b(?:it|test)\s*\.\s*todo\s*\(/, 'left a test as a todo'],
-  [/@pytest\.mark\.(?:skip|skipif|xfail)\b|\bpytest\.skip\s*\(|@unittest\.(?:skip|expectedFailure)|\.skipTest\s*\(|\bt\.Skip(?:f|Now)?\s*\(|#\[ignore\]|@(?:Disabled|Ignore)\b|\[Ignore\]/, 'skipped a test'],
+  [/@pytest\.mark\.(?:skip(?!if)|xfail)\b|@unittest\.(?:skip\b(?!If|Unless)|expectedFailure)|#\[ignore\]|@(?:Disabled|Ignore)\b|\[Ignore\]/, 'skipped a test'],
   [/\b(?:it|test|describe)\s*\.\s*only\s*\(|\bf(?:it|describe)\s*\(/, 'focused one test, so the others stop running'],
   [/\bexpect\s*\(\s*(?:true|1)\s*\)\s*\.\s*to(?:Be|Equal)\s*\(\s*(?:true|1)\s*\)|\bassert\s+True\b|\bassert\s*\(\s*true\s*\)|\bassertTrue\s*\(\s*true\s*\)/, 'wrote an assertion that cannot fail'],
 ]
 const SILENCE = /(?:\/\/|\/\*|#|--)\s*(?:@ts-(?:ignore|nocheck|expect-error)|eslint-disable|type:\s*ignore|noqa|pyright:\s*ignore|nolint)\b|^\s*#!?\[allow\(|^\s*@SuppressWarnings\b/
 const NONFATAL = /\b(?:test|check|lint|ci)\b.*\|\|\s*(?:true|exit 0)\b|--passWithNoTests|continue-on-error:\s*true/
 const CONFIG_FILE = /(^|\/)(package\.json|Makefile|justfile|[^/]+\.(?:ya?ml|toml|sh))$/i
-export const DISCLOSED = /\b(?:skip|disabl|remov|delet|ignor|xfail|noqa|suppress|silenc|comment(?:ed)?\s+out|no-verify|non-?fatal|focus|lewati|nonaktif|hapus|matikan)|\.only\b|跳过|禁用|删除|忽略/i
+export const DISCLOSED = /\b(?:skip|disabl|remov|delet|ignor|xfail|noqa|suppress|silenc|comment(?:ed)?\s+out|no-verify|non-?fatal|focus|quarantin|mute|lewati|nonaktif|hapus|matikan)|\.only\b|跳过|禁用|删除|忽略/i
 const ASSERTION = /(?:^|[^\w.])(?:expect|assert\w*|should|XCTAssert\w*)\s*[.(!]|^\s*assert\s|\bt\.(?:Error|Errorf|Fatal|Fatalf|Fail)\b|\brequire\.\w+\(/
 
 const TEST_CMD = /\b(?:jest|vitest|mocha|ava|pytest|py\.test|tox|nox|rspec|phpunit|pest|ctest|busted)\b|\bnode\s+--test\b|\bpython3?\s+-m\s+(?:pytest|unittest)\b|\b(?:npm|pnpm|yarn|bun|deno|npx|cargo|go|dotnet|swift|mix|flutter|dart|zig|gradlew?|mvn|bazel|make|just|task|uv|poetry|hatch|rake|lune)\b[^\n|;&]*\b(?:test|tests|spec|check|verify|ci)\b|[\w-]*(?:test|check|verify)[\w.-]*\.(?:sh|py|js|mjs|ts)\b|\bxcodebuild\b.*\btest\b/i
@@ -78,7 +80,7 @@ export function tamperIn(changes) {
     if (deleted && isTest) out.push({ path: p, what: 'deleted a test file' })
     for (const line of added) {
       if (was.has(line.trim())) continue
-      const hit = rules.find(([re]) => { const m = line.match(re); return m && (config || !inString(line, m.index)) })
+      const hit = rules.find(([re]) => { const m = line.match(re); return m && (config || (!inString(line, m.index) && !inComment(line, m.index, re === SILENCE))) })
       if (hit) out.push({ path: p, what: hit[1], line: line.trim() })
     }
   }
@@ -90,8 +92,10 @@ export function tamperIn(changes) {
   return out
 }
 
-// A match inside a string literal is a test about tampering, not tampering.
+// A match inside a string literal or a comment is a test (or a note) about tampering, not tampering.
+// Checker-silencing directives live in comments, so for those only the string check applies.
 const inString = (line, i) => ['\'', '"', '`'].some(q => line.slice(0, i).split(q).length % 2 === 0)
+const inComment = (line, i, directive) => !directive && /\/\/|\/\*|^\s*(?:#|\*)/.test(line.slice(0, i))
 // Edits to docs, data files and scratch files don't reset the clock; code edits do.
 const isCode = path => path && !NOT_CODE.test(path.replace(/\\/g, '/')) && !SCRATCH.test(path.replace(/\\/g, '/'))
 // `grep x && ./check.sh | tail` ran a check: judge each piece of a compound command on its own.

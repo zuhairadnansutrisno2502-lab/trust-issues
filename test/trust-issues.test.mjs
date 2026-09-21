@@ -198,3 +198,11 @@ test('check lists a refactor without failing it', () => {
   assert.equal(r.status, 0)
   assert.match(r.stdout, /deleted 2 assertions/)
 })
+
+test('platform and dependency guards are not skips', () => {
+  const guard = added => tamperIn([{ path: 'tests/test_x.py', removed: [], added }]).map(t => t.what)
+  assert.deepEqual(guard(['@pytest.mark.skipif(os.name == "nt", reason="POSIX only")', '@unittest.skipUnless(shutil.which("jq"), "no jq")', '    pytest.skip("Docker integration is opt-in")']), [])
+  assert.deepEqual(tamperIn([{ path: 'e2e/a.spec.ts', removed: [], added: ['test.skip(!isMobile, "mobile only");', '// test.describe.only is banned here'] }]), [])
+  assert.deepEqual(guard(['@pytest.mark.skip(reason="flaky")']), ['skipped a test'])
+  assert.deepEqual(tamperIn([{ path: 'a.test.js', removed: [], added: ['it.skip("adds", () => {'] }]).map(t => t.what), ['skipped a test'])
+})
