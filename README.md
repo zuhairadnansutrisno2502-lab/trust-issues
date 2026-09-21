@@ -104,6 +104,8 @@ That is the author's own card after three months with a good model. Even there, 
 
 **My agent is honest.** Then you'll never hear from trust-issues. That is the point.
 
+**What does it cost?** The hook runs outside the model, so no tokens at all. The skill adds about 110 tokens to a session and about 570 when it fires (Claude Code's own estimate, from `claude plugin details`).
+
 **Can it get stuck?** No. Same complaint twice and it lets the agent stop; Claude Code also caps stop hooks on its side.
 
 **Codex and Cursor hooks?** The skill works there today. Hooks for them are next; the checks are the same.
