@@ -1,0 +1,16 @@
+{
+  "name": "trust-issues",
+  "version": "0.1.0",
+  "description": "Your coding agent says it's done. Make it prove it. Catches \"tests pass\" with no test run behind it, and tests made easier instead of code made right. Claude Code hook, agent skill, report card and CI check.",
+  "keywords": ["claude-code", "codex", "cursor", "coding-agent", "ai-agents", "agent-skills", "hooks", "testing", "verification", "reward-hacking"],
+  "author": "Xianying",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "git+https://github.com/zuhairadnansutrisno2502-lab/trust-issues.git" },
+  "homepage": "https://github.com/zuhairadnansutrisno2502-lab/trust-issues#readme",
+  "bugs": "https://github.com/zuhairadnansutrisno2502-lab/trust-issues/issues",
+  "type": "module",
+  "bin": { "trust-issues": "bin/trust-issues.mjs" },
+  "files": ["bin"],
+  "engines": { "node": ">=20.12" },
+  "scripts": { "test": "node --test" }
+}
