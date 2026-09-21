@@ -49,7 +49,7 @@ It does not argue with honest agents. If the receipt is there, or the agent alre
 npx skills add zuhairadnansutrisno2502-lab/trust-issues
 ```
 
-**CI**, to fail a pull request that makes tests easier to pass (needs `fetch-depth: 0`):
+**CI**, to fail a pull request that skips, focuses or fakes a test (needs `fetch-depth: 0`):
 
 ```yaml
 - run: npx -y trust-issues check origin/${{ github.base_ref }}
@@ -69,7 +69,7 @@ trust-issues  69 turns where Claude Code changed code · Jul 7 – Sep 21
   "tests pass"          6 claims   6 backed   0 no receipt   0 after a failing run
   "fixed" / "works"    16 claims  16 backed   0 no receipt
   "verified"           12 claims  11 backed   1 no receipt
-  tampering             0 times   none
+  silent tampering      0 times   none
 
   receipts missing
   Aug 1   "rules.js (28 rules, ~60 packages, all versions verified)"
@@ -88,7 +88,7 @@ That is the author's own card after three months with a good model. Even there, 
 
 **Receipts.** A command that ran after the last edit to a code file. For "tests pass" it has to be a test run, and its output must not show failures, whatever the exit code says. For "fixed" and "verified", anything that executed code. For "pre-existing", a run on the code from before the change (`git stash`, a worktree, a checkout).
 
-**Tampering.** Always: a test that was skipped, focused with `.only`, turned into a todo or given an assertion that cannot fail; `|| true`, `continue-on-error` or `--passWithNoTests` around a test command; `--no-verify`. Only next to a claim of success, because honest refactors look the same: fewer assertions than before, a deleted test file, a fresh `@ts-ignore`, `eslint-disable` or `# noqa`.
+**Tampering.** Always: a test that was skipped, focused with `.only`, turned into a todo or given an assertion that cannot fail; `|| true`, `continue-on-error` or `--passWithNoTests` around a test command; `--no-verify`. Only next to a claim of success, because honest refactors look the same: fewer assertions than before, a deleted test file, a fresh `@ts-ignore`, `eslint-disable` or `# noqa`. In CI there are no claims to read, so `check` fails on the first group and lists the second for a human.
 
 **Manners.** It sends the agent back at most once for the same thing. Anything the agent already owned up to ("skipped the flaky test because the staging API is down") is not silent, so it passes. It is a handful of regexes, not a judge: it will miss a clever lie, and it tries very hard not to accuse an honest agent.
 

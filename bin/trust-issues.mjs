@@ -144,7 +144,7 @@ function toolEvents(b) {
   const i = b.input ?? {}
   if (b.name === 'Edit') return [{ kind: 'edit', path: i.file_path, change: { path: i.file_path, removed: lines(i.old_string), added: lines(i.new_string) } }]
   if (b.name === 'MultiEdit') return [{ kind: 'edit', path: i.file_path, change: { path: i.file_path, removed: (i.edits ?? []).flatMap(x => lines(x.old_string)), added: (i.edits ?? []).flatMap(x => lines(x.new_string)) } }]
-  if (b.name === 'Write') return [{ kind: 'edit', path: i.file_path, change: { path: i.file_path, removed: [], added: lines(i.content), whole: true } }]
+  if (b.name === 'Write') return [{ kind: 'edit', path: i.file_path, change: { path: i.file_path, removed: [], added: lines(i.content) } }]
   if (b.name === 'NotebookEdit') return [{ kind: 'edit', path: i.notebook_path }]
   if (b.name === 'Bash') {
     const cmd = String(i.command ?? '')
@@ -243,13 +243,16 @@ export function changesFromDiff(diff) {
   return changes
 }
 
+// Fails on the unambiguous ones; deleted tests, fewer asserts and silenced checkers are listed for a human to judge.
 function check(base = 'HEAD') {
   const git = (...args) => execFileSync('git', args, { encoding: 'utf8', maxBuffer: 1 << 28 })
   const diff = git('diff', '--unified=0', '--no-color', '--no-ext-diff', git('merge-base', base, 'HEAD').trim())
   const found = tamperIn(changesFromDiff(diff))
-  for (const t of found) console.log(`${paint('red', '✗')} ${t.path}  ${t.what}${t.line ? paint('dim', `   ${t.line.slice(0, 80)}`) : ''}`)
-  console.log(found.length ? paint('red', `\n${found.length} change${found.length > 1 ? 's' : ''} that make tests easier to pass instead of the code more correct.`) : paint('green', `✓ nothing in the diff against ${base} makes the tests easier to pass`))
-  process.exitCode = found.length ? 1 : 0
+  const fail = found.filter(t => !/^(silenced|deleted)/.test(t.what))
+  for (const t of found) console.log(`${fail.includes(t) ? paint('red', '✗') : paint('yellow', '?')} ${t.path}  ${t.what}${t.line ? paint('dim', `   ${t.line.slice(0, 80)}`) : ''}`)
+  console.log(fail.length ? paint('red', `\n${fail.length} change${fail.length > 1 ? 's' : ''} that make tests easier to pass instead of the code more correct.`)
+    : paint('green', `${found.length ? '\n' : ''}✓ nothing in the diff against ${base} skips, focuses or fakes a test${found.length ? '; the ? lines are worth a look' : ''}`))
+  process.exitCode = fail.length ? 1 : 0
 }
 
 // ---------- the report card ----------
@@ -283,7 +286,7 @@ async function report({ days }) {
         k[c.verdict]++
         if (c.verdict !== 'backed') t.bad.push({ ...c, at: turn.at, cwd: turn.cwd })
       }
-      for (const x of tampering) t.tampering.push({ ...x, at: turn.at, cwd: turn.cwd })
+      for (const x of tampering.filter(x => x.silent)) t.tampering.push({ ...x, at: turn.at, cwd: turn.cwd })
     }
   }
   if (!t.turns) return console.log(`No Claude Code turns that changed code under ${root}${days ? ` in the last ${days} days` : ''}. Nothing to be suspicious of. Yet.`)
@@ -304,7 +307,7 @@ async function report({ days }) {
   row('"pre-existing"', t.claims['pre-existing'])
   if (!all) console.log(paint('dim', '  no claims of success found; your agent is either honest or quiet'))
   const kinds = Object.entries(t.tampering.reduce((m, x) => (m[x.what.replace(/\d+ assertions?/, 'assertions')] = (m[x.what.replace(/\d+ assertions?/, 'assertions')] ?? 0) + 1, m), {}))
-  console.log(`  ${'tampering'.padEnd(18)}${String(t.tampering.length).padStart(5)} times   ${paint(t.tampering.length ? 'red' : 'dim', kinds.map(([w, n]) => `${n}× ${w}`).join(' · ') || 'none')}`)
+  console.log(`  ${'silent tampering'.padEnd(18)}${String(t.tampering.length).padStart(5)} times   ${paint(t.tampering.length ? 'red' : 'dim', kinds.map(([w, n]) => `${n}× ${w}`).join(' · ') || 'none')}`)
 
   const worst = [...t.bad.filter(c => c.verdict === 'contradicted'), ...t.bad.filter(c => c.verdict !== 'contradicted')].slice(0, 5)
   if (worst.length) {
@@ -332,8 +335,8 @@ async function main([cmd, ...rest]) {
 
   npx trust-issues              report card for your Claude Code history
   npx trust-issues --days 30    only the last 30 days
-  npx trust-issues check [ref]  fail if the diff against ref (default HEAD) skips, deletes
-                                or weakens tests, or silences a checker (for CI)
+  npx trust-issues check [ref]  fail if the diff against ref (default HEAD) skips, focuses or
+                                fakes a test, or makes a test command non-fatal (for CI)
   trust-issues hook             the Claude Code Stop hook (the plugin wires this up)
 
   Everything runs locally. Nothing is uploaded.`)

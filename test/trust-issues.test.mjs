@@ -185,3 +185,16 @@ test('the README demo is what the hook really says', () => {
     'Can\'t check something here? Say "not verified" rather than implying you did.',
   ].join('\n'))
 })
+
+test('check lists a refactor without failing it', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'ti-'))
+  const git = (...a) => execFileSync('git', a, { cwd: dir, encoding: 'utf8' })
+  git('init', '-q'); git('config', 'user.email', 't@t'); git('config', 'user.name', 't')
+  mkdirSync(join(dir, 'test'))
+  writeFileSync(join(dir, 'test', 'a.test.js'), 'test("adds", () => {\n  expect(add(1, 2)).toBe(3)\n  expect(add(2, 2)).toBe(4)\n})\n')
+  git('add', '.'); git('commit', '-qm', 'init')
+  writeFileSync(join(dir, 'test', 'a.test.js'), 'test.each([[1, 2, 3], [2, 2, 4]])("adds", (a, b, c) => {\n})\n')
+  const r = spawnSync(process.execPath, [bin, 'check'], { cwd: dir, encoding: 'utf8' })
+  assert.equal(r.status, 0)
+  assert.match(r.stdout, /deleted 2 assertions/)
+})
