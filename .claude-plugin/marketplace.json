@@ -1,0 +1,14 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-marketplace.json",
+  "name": "trust-issues",
+  "description": "Receipts for your coding agent's claims.",
+  "owner": { "name": "Xianying" },
+  "plugins": [
+    {
+      "name": "trust-issues",
+      "description": "Sends the agent back when it says tests pass without running them, or games the tests to get green.",
+      "source": "./",
+      "category": "productivity"
+    }
+  ]
+}

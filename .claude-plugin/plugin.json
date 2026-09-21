@@ -1,0 +1,9 @@
+{
+  "name": "trust-issues",
+  "description": "Your coding agent says it's done. Make it prove it. Sends the agent back when it claims tests pass without running them, or skips, deletes or weakens a test to get green.",
+  "author": { "name": "Xianying", "url": "https://github.com/zuhairadnansutrisno2502-lab" },
+  "homepage": "https://github.com/zuhairadnansutrisno2502-lab/trust-issues",
+  "repository": "https://github.com/zuhairadnansutrisno2502-lab/trust-issues",
+  "license": "MIT",
+  "keywords": ["verification", "testing", "honesty", "hooks", "claude-code"]
+}
