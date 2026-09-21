@@ -349,5 +349,6 @@ async function main([cmd, ...rest]) {
   return report({ days: Number(rest[0]) || 0 })
 }
 
-if (process.argv[1] && realpathSync(process.argv[1]) === fileURLToPath(import.meta.url))
+const same = (a, b) => process.platform === 'win32' ? a.toLowerCase() === b.toLowerCase() : a === b
+if (process.argv[1] && same(realpathSync(process.argv[1]), fileURLToPath(import.meta.url)))
   main(process.argv.slice(2)).catch(err => { console.error(`trust-issues: ${err.message}`); process.exitCode = process.argv[2] === 'hook' ? 0 : 1 })
