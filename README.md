@@ -106,6 +106,8 @@ That is the author's own card after three months with a good model (the flagged 
 
 **Codex and Cursor hooks?** The skill works there today. Hooks for them are next; the checks are the same.
 
+**How noisy is it?** Before release I ran the tamper checks over three months of 299 public repositories where coding agents commit: 154,933 commits, 70,175 of which touched a test file. Outright skips, focused tests and assertions that cannot fail turned up in fewer than 3 of every 1,000 of those, at about the same rate whether or not the commit carried an AI trailer. Merged code is not where agents get caught; a session is. Every false alarm that run turned up (a Python method named `fit`, an `#[ignore]` inside a comment, platform guards like `skipif`) is fixed and pinned by a test.
+
 **It flagged something it shouldn't have.** Please open an issue with the sentence it quoted. False accusations are the bug this project cares about most.
 
 ## License
