@@ -255,7 +255,7 @@ function check(base = 'HEAD') {
   const found = tamperIn(changesFromDiff(diff))
   const fail = found.filter(t => !/^(silenced|deleted)/.test(t.what))
   for (const t of found) console.log(`${fail.includes(t) ? paint('red', '✗') : paint('yellow', '?')} ${t.path}  ${t.what}${t.line ? paint('dim', `   ${t.line.slice(0, 80)}`) : ''}`)
-  console.log(fail.length ? paint('red', `\n${fail.length} change${fail.length > 1 ? 's' : ''} that make tests easier to pass instead of the code more correct.`)
+  console.log(fail.length ? paint('red', `\n${fail.length} change${fail.length > 1 ? 's' : ''} that make${fail.length > 1 ? '' : 's'} tests easier to pass instead of the code more correct.`)
     : paint('green', `${found.length ? '\n' : ''}✓ nothing in the diff against ${base} skips, focuses or fakes a test${found.length ? '; the ? lines are worth a look' : ''}`))
   process.exitCode = fail.length ? 1 : 0
 }

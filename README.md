@@ -80,6 +80,12 @@ trust-issues  69 turns where Claude Code changed code · Jul 7 – Sep 21
 
 That is the author's own card after three months with a good model (the flagged quote is translated from Indonesian). Even there, one "verified" came right after the agent edited the very script it had verified with.
 
+## Measured before release
+
+<p align="center">
+  <img src="docs/measured.svg" width="880" alt="The scan: 299 public repositories, 154,933 commits, 70,175 of them touching a test file, 150 flagged. How often it fires: 2 in 1,000, at about the same rate with or without an AI trailer. Of 24 flagged examples read by hand, 12 were real and 12 were the tool's own mistakes, now fixed and pinned by tests. In a live turn the hook costs no tokens and 0.13 seconds.">
+</p>
+
 ## What it checks
 
 **Claims.** A sentence in the agent's final message that says the tests pass, something is fixed or works, it verified something, or a failure is pre-existing. English, Indonesian and Chinese. Questions, conditions ("once the tests pass"), negations and code blocks don't count.
@@ -106,7 +112,7 @@ That is the author's own card after three months with a good model (the flagged 
 
 **Codex and Cursor hooks?** The skill works there today. Hooks for them are next; the checks are the same.
 
-**How noisy is it?** Before release I ran the tamper checks over three months of 299 public repositories where coding agents commit: 154,933 commits, 70,175 of which touched a test file. Outright skips, focused tests and assertions that cannot fail turned up in fewer than 3 of every 1,000 of those, at about the same rate whether or not the commit carried an AI trailer. Merged code is not where agents get caught; a session is. Every false alarm that run turned up (a Python method named `fit`, an `#[ignore]` inside a comment, platform guards like `skipif`) is fixed and pinned by a test.
+**How noisy is it?** See the numbers above. Two notes on them: agent-written commits were no worse than the rest, which is why this README makes no claim that they are, and merged code is not where agents get caught anyway, a session is. Every false alarm that scan turned up (a Python method named `fit`, an `#[ignore]` inside a comment, platform guards like `skipif`) is fixed and pinned by a test.
 
 **It flagged something it shouldn't have.** Please open an issue with the sentence it quoted. False accusations are the bug this project cares about most.
 
